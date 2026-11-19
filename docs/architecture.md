@@ -20,7 +20,7 @@ PORTAL is the platform control plane: identity, sessions, app registry, permissi
 - `/api/truck/*` → TRUCK Worker `/api/*`
 - `/api/data/*` → DATA Worker `/api/*`
 
-Vite provides a development-only fetch proxy. `vercel.json` provides same-origin production rewrites. Browser code must never contain service-role or backend secrets.
+Vite provides a development-only fetch proxy. Cloudflare Pages Functions provide a same-origin production API proxy with a fixed upstream allowlist; only `/api/*` invokes Functions, while static assets remain edge-served. `vercel.json` remains an optional alternate deployment rewrite. Browser code must never contain service-role or backend secrets.
 
 ## Authentication
 
