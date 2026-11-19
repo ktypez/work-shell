@@ -19,7 +19,9 @@ Status: Prototype foundation built; GitHub source publication pending
 - [x] Create the GitHub repository `ktypez/work-shell`.
 - [x] Push prototype source and documentation to GitHub.
 - [ ] Merge mcky-ui V6 foundation PR #16.
-- [ ] Configure Vercel project and work.mcky.space domain.
+- [x] Create Cloudflare Pages project `work-shell` connected to GitHub `ktypez/work-shell`.
+- [ ] Add `work.mcky.space` custom domain and verify DNS.
+- [ ] Verify first Cloudflare Pages deployment and same-origin API proxy.
 
 ## Phase 1 — PORTAL Identity Core
 - [x] Decide to elevate PORTAL into the platform identity and administration service.
