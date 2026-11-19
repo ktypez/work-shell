@@ -180,6 +180,7 @@
             <div class="identity-admin-card"><span class="identity-admin-icon"><ClipboardList size={21}/></span><div class="eyebrow">04 / GOVERNANCE</div><h3>Audit & sessions</h3><p>Review sign-ins, LINE linking and sync events, permission changes, session revocations and admin actions.</p><span class="identity-feature">Audit trail · Session control</span></div>
           </div>
           <section class="identity-line-panel"><div><div class="eyebrow">IDENTITY PROVIDER</div><h3>LINE Login, directly connected</h3><p>Use LINE Login v2.1 with secure OAuth state, nonce and PKCE. Preserve the current link-only policy for existing accounts and keep profile sync as an explicit user action.</p></div><span class="line-mark">LINE</span></section>
+          <a class="primary-button mcky-v6-button portal-open-button" href="https://me.mcky.space?from=work" target="_blank" rel="noreferrer">OPEN PORTAL ACCOUNT CENTER <ExternalLink size={15}/></a>
           <div class="identity-footer-note">PORTAL / ME.MCKY.SPACE · IDENTITY SERVICE · ADMIN CONSOLE</div>
         {/if}
         <footer class="page-footer"><span><i class="live-dot"></i> WORK SHELL / PROTOTYPE</span><span>BUILD 0.1.0 · MCKY</span></footer>
