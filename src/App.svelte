@@ -3,32 +3,24 @@
   import { Activity, ArrowLeft, ArrowRight, Bell, ChevronDown, ClipboardList, Database, ExternalLink, KeyRound, LayoutDashboard, Menu, Search, Settings, ShieldCheck, SlidersHorizontal, Truck, Users, X } from '@lucide/svelte'
   import { applications, type AppId } from './lib/apps'
   import { checkIntegrations, type IntegrationStatus } from './lib/integrations'
-  import { getDataLedgerSummary, getDataLedgerClients, type DataClient } from './lib/data-api'
 
   let active = $state<AppId>('home')
   let mobileMenu = $state(false)
   let searchOpen = $state(false)
   let integrations: IntegrationStatus[] = $state([])
   let checking = $state(true)
-  let dataCount: number | null = $state(null)
-  let dataClients: DataClient[] = $state([])
-  let dataSearch = $state('')
-  let dataLoading = $state(false)
   const currentApp = $derived(active === 'home' ? null : applications.find((app) => app.id === active) ?? null)
   const currentTitle = $derived(active === 'portal' ? 'IDENTITY & ACCESS' : currentApp?.name ?? 'OVERVIEW')
   const onlineCount = $derived(integrations.filter((item) => item.status === 'online').length)
 
   async function refreshStatus() {
     checking = true
-    const [statuses, summary] = await Promise.all([checkIntegrations(), getDataLedgerSummary()])
-    integrations = statuses
-    dataCount = summary?.count ?? null
+    integrations = await checkIntegrations()
     checking = false
   }
 
   onMount(() => { void refreshStatus() })
-  function openApp(id: AppId) { active = id; mobileMenu = false; searchOpen = false; if (id === 'data') void loadDataClients() }
-  async function loadDataClients(query = '') { dataLoading = true; dataClients = await getDataLedgerClients(query); dataLoading = false }
+  function openApp(id: AppId) { active = id; mobileMenu = false; searchOpen = false }
   function formatDate() { return new Intl.DateTimeFormat('en', { weekday: 'short', day: 'numeric', month: 'short' }).format(new Date()) }
 </script>
 
@@ -155,20 +147,8 @@
         {:else if active === 'data'}
           {@render ModuleHeader('INFORMATION / DATA LEDGER', 'DATA LEDGER', 'Client records, catalog and location data.', 'data', () => openApp('home'))}
           <div class="module-banner yellow-banner"><div><div class="eyebrow">APPLICATION MODULE</div><h2>Your data, organized.</h2><p>Client catalog, record details, maps and media workflows.</p></div><Database size={58}/></div>
-          {@render ModuleStats([['CLIENT RECORDS', dataCount === null ? '—' : dataCount.toLocaleString(),'Live count from Data Ledger D1'],['DATA SOURCE','CLOUDFLARE D1','R2 object storage'],['IDENTITY','PLATFORM','Central account service']])}
-          <section class="catalog-panel">
-            <div class="catalog-head"><div><div class="eyebrow">LIVE DATA / CLIENT CATALOG</div><h3>Recent client records</h3></div><span class="catalog-count">{dataClients.length} SHOWN</span></div>
-            <div class="catalog-search"><input bind:value={dataSearch} placeholder="Search client, shop or branch…" onkeydown={(e) => { if (e.key === 'Enter') void loadDataClients(dataSearch) }}/><button onclick={() => loadDataClients(dataSearch)}>SEARCH</button></div>
-            {#if dataLoading}<p class="catalog-empty">Loading records from Data Ledger…</p>
-            {:else if dataClients.length === 0}<p class="catalog-empty">No records found. Try another search.</p>
-            {:else}
-              <div class="client-list">{#each dataClients as client}
-                <div class="client-row"><div class="client-thumb">{#if client.thumb || client.image}<img src={client.thumb || client.image || ''} alt="" loading="lazy"/>{:else}<Database size={17}/>{/if}</div><div class="client-copy"><strong>{client.shopName || client.name}</strong><small>{client.name}{client.branch ? ' · ' + client.branch : ''}</small></div>{#if client.badge}<span class="client-badge">{client.badge}</span>{/if}</div>
-              {/each}</div>
-            {/if}
-            <div class="catalog-foot">LIVE READ · DATA LEDGER API · D1 / R2</div>
-          </section>
-          {@render ModuleContent('DATA LEDGER application workspace', 'Preserve the current catalog, edit, map, trash, offline cache and photo upload logic while adapting the presentation to Work Shell.', 'https://data.mcky.space')}
+          {@render ModuleStats([['API CONNECTION', integrations.find(x => x.id === 'data')?.status === 'online' ? 'ONLINE' : 'PENDING','Health endpoint only'],['DATA SOURCE','CLOUDFLARE D1','R2 object storage'],['ACCESS CONTROL','PORTAL','App grant required']])}
+          {@render ModuleContent('DATA LEDGER application workspace', 'Client records and write operations remain hidden in this public prototype. They will be enabled after PORTAL sessions and per-app permissions are enforced by the existing API.', 'https://data.mcky.space')}
         {:else}
           {@render ModuleHeader('PLATFORM / IDENTITY', 'IDENTITY CENTER', 'Central identity, app permissions and platform administration.', 'identity', () => openApp('home'))}
           <div class="module-banner cream-banner"><div><div class="eyebrow">PLATFORM CONTROL PLANE</div><h2>One identity. Every app.</h2><p>PORTAL becomes the identity provider and administration center for Work Shell and its connected applications.</p></div><ShieldCheck size={58}/></div>
