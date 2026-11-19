@@ -28,7 +28,9 @@ Status: Prototype foundation built; GitHub source publication pending
 - [x] Design stable-subject migration to preserve existing Clerk `user_...` IDs used by TRUCK RLS.
 - [x] Design direct LINE Login v2.1 with state, nonce and PKCE; preserve link-only behavior.
 - [x] Design Custom OIDC discovery/JWKS integration for Supabase.
-- [x] Create dedicated Cloudflare D1 database `mcky-identity` in APAC (empty; schema pending).
+- [x] Create dedicated production D1 `mcky-identity` and isolated preview D1 `mcky-identity-preview` in APAC.
+- [x] Apply identity schema migrations 0001 and 0002 to both databases.
+- [x] Bind `IDENTITY_DB` to Portal Pages preview and production environments.
 - [ ] Add D1 binding to existing Portal Pages Functions project.
 - [ ] Implement identity schema, migrations, OIDC discovery/JWKS and signing-key rotation.
 - [ ] Implement password reset/re-enrollment and session rotation/revocation.
