@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "@lucide/svelte": "^1.76.0",
-    "@mcky/ui": "github:ktypez/mcky-ui#feat/v6-work-shell-foundation"
+    "@mcky/ui": "https://codeload.github.com/ktypez/mcky-ui/tar.gz/c7a3561b222cb89a4b52a9a631302e6fba519ea0"
   }
 }
