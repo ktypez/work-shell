@@ -20,8 +20,8 @@ Status: Prototype foundation built; GitHub source publication pending
 - [x] Push prototype source and documentation to GitHub.
 - [ ] Merge mcky-ui V6 foundation PR #16.
 - [x] Create Cloudflare Pages project `work-shell` connected to GitHub `ktypez/work-shell`.
-- [ ] Add `work.mcky.space` custom domain and verify DNS.
-- [ ] Verify first Cloudflare Pages deployment and same-origin API proxy.
+- [x] Add `work.mcky.space` custom domain and verify DNS.
+- [x] Verify first Cloudflare Pages deployment and same-origin API proxy (TRUCK health, DATA ping and live client count).
 
 ## Phase 1 — PORTAL Identity Core
 - [x] Decide to elevate PORTAL into the platform identity and administration service.
