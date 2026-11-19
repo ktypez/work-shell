@@ -78,7 +78,9 @@ DATA LEDGER's current API and D1/R2 remain its source of truth. Its API must ind
 
 ## 5. LINE Login and account linking
 
-Use LINE Login v2.1 directly:
+The current Portal UI explicitly states that users sign in with email/username and password; LINE is not currently an independent sign-in method. LINE is linked to an existing account from the account page. Preserve this exact behavior as the default migration mode unless the product owner explicitly approves direct LINE sign-in.
+
+For direct LINE linking (and any future optional LINE sign-in), use LINE Login v2.1:
 1. Create a random `state`, `nonce`, and PKCE verifier/challenge (S256).
 2. Redirect to LINE's authorization endpoint with `profile openid`; request `email` only if the LINE channel has the required permission approved and the user consents.
 3. Exchange the authorization code server-side.
