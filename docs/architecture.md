@@ -14,6 +14,14 @@ PORTAL is the platform control plane: identity, sessions, app registry, permissi
 | DATA LEDGER | Elysia on Cloudflare Worker: `data-api.fall3n.workers.dev` | Cloudflare D1 + R2 | Clerk → PORTAL-issued app token |
 | PORTAL / Identity Center | Existing Svelte 5 app at `me.mcky.space` | New dedicated D1: `mcky-identity` | Becomes first-party identity provider |
 
+## Deployment
+
+- Cloudflare Pages project: `work-shell`
+- Production URL: `https://work.mcky.space`
+- Git source: `ktypez/work-shell`, production branch `main`
+- Build: `npm install --no-audit --no-fund && npm run build`; output `dist`
+- `SKIP_DEPENDENCY_INSTALL=1` avoids the Pages build image auto-install path; the explicit install command is used.
+
 ## API routing
 
 - `/api/truck-health` → TRUCK Worker `/health`
