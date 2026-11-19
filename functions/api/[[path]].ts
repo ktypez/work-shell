@@ -2,8 +2,8 @@ interface PagesRequestContext {
   request: Request
 }
 
-const TRUCK_ORIGIN = 'https://truck-api-cf.fall3n.workers.dev'
-const DATA_ORIGIN = 'https://data-api.fall3n.workers.dev'
+const TRUCK_HEALTH = 'https://truck-api-cf.fall3n.workers.dev/health'
+const DATA_PING = 'https://data-api.fall3n.workers.dev/api/ping'
 
 function jsonError(message: string, status: number): Response {
   return Response.json({ error: message }, {
@@ -12,59 +12,37 @@ function jsonError(message: string, status: number): Response {
   })
 }
 
+// Public prototype proxy: intentionally exposes only non-sensitive health checks.
+// Do not add business-data or mutation routes until Portal token verification and
+// per-app permission enforcement are enabled in the corresponding API.
 export const onRequest = async ({ request }: PagesRequestContext): Promise<Response> => {
   const incoming = new URL(request.url)
   const path = incoming.pathname.slice('/api/'.length)
-  const segments = path.split('/')
+  const method = request.method.toUpperCase()
 
-  if (!path || segments.some((segment) => segment === '.' || segment === '..')) {
-    return jsonError('Invalid API path', 400)
+  if (method !== 'GET' && method !== 'HEAD') {
+    return jsonError('Method not allowed', 405)
   }
 
   let upstreamUrl: URL
   if (path === 'truck-health') {
-    upstreamUrl = new URL('/health', TRUCK_ORIGIN)
-  } else if (segments[0] === 'truck' && segments.length > 1) {
-    upstreamUrl = new URL('/api/' + segments.slice(1).join('/'), TRUCK_ORIGIN)
-  } else if (segments[0] === 'data' && segments.length > 1) {
-    upstreamUrl = new URL('/api/' + segments.slice(1).join('/'), DATA_ORIGIN)
+    upstreamUrl = new URL(TRUCK_HEALTH)
+  } else if (path === 'data/ping') {
+    upstreamUrl = new URL(DATA_PING)
   } else {
-    return jsonError('Unknown API service', 404)
-  }
-  upstreamUrl.search = incoming.search
-
-  const headers = new Headers()
-  for (const name of ['accept', 'authorization', 'content-type', 'idempotency-key', 'if-match', 'if-none-match']) {
-    const value = request.headers.get(name)
-    if (value) headers.set(name, value)
+    return jsonError('API route is not enabled in the public prototype', 404)
   }
 
   const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), 12_000)
+  const timeout = setTimeout(() => controller.abort(), 8_000)
   try {
-    const method = request.method.toUpperCase()
-    const upstream = await fetch(upstreamUrl, {
-      method,
-      headers,
-      body: method === 'GET' || method === 'HEAD' ? undefined : request.body,
-      redirect: 'manual',
-      signal: controller.signal,
-    })
-
-    const responseHeaders = new Headers()
-    for (const name of ['content-type', 'cache-control', 'etag', 'content-disposition', 'last-modified', 'retry-after']) {
-      const value = upstream.headers.get(name)
-      if (value) responseHeaders.set(name, value)
-    }
-    if (!responseHeaders.has('cache-control')) responseHeaders.set('Cache-Control', 'no-store')
-
-    return new Response(upstream.body, {
-      status: upstream.status,
-      statusText: upstream.statusText,
-      headers: responseHeaders,
-    })
+    const upstream = await fetch(upstreamUrl, { method, redirect: 'manual', signal: controller.signal })
+    const headers = new Headers({ 'Cache-Control': 'no-store' })
+    const contentType = upstream.headers.get('content-type')
+    if (contentType) headers.set('Content-Type', contentType)
+    return new Response(upstream.body, { status: upstream.status, headers })
   } catch {
-    return jsonError('Upstream API unavailable', 502)
+    return jsonError('Upstream health check unavailable', 502)
   } finally {
     clearTimeout(timeout)
   }
