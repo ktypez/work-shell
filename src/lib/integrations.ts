@@ -1,4 +1,4 @@
-export interface IntegrationStatus { id: 'truck' | 'data' | 'clerk'; label: string; endpoint: string; status: 'checking' | 'online' | 'unavailable' | 'not-configured'; detail: string }
+export interface IntegrationStatus { id: 'truck' | 'data' | 'identity'; label: string; endpoint: string; status: 'checking' | 'online' | 'unavailable' | 'not-configured'; detail: string }
 
 const TRUCK_HEALTH = import.meta.env.VITE_TRUCK_API_URL || '/api/truck-health'
 const DATA_API = import.meta.env.VITE_DATA_API_URL || '/api/data/ping'
@@ -16,6 +16,6 @@ export async function checkIntegrations(): Promise<IntegrationStatus[]> {
   return [
     { id: 'truck', label: 'TRUCK API', endpoint: TRUCK_HEALTH, status: truck ? 'online' : 'unavailable', detail: truck ? 'API health endpoint responded' : 'Health check blocked or unavailable' },
     { id: 'data', label: 'DATA API', endpoint: DATA_API, status: data ? 'online' : 'unavailable', detail: data ? 'API ping endpoint responded' : 'Ping blocked or unavailable' },
-    { id: 'clerk', label: 'CLERK IDENTITY', endpoint: 'https://clerk.mcky.space', status: 'not-configured', detail: 'Shared Clerk identity via me.mcky.space; domain authorization needs verification' },
+    { id: 'identity', label: 'PORTAL IDENTITY', endpoint: 'https://me.mcky.space/.well-known/openid-configuration', status: 'not-configured', detail: 'Platform OIDC issuer is planned; existing Portal login remains active during migration' },
   ]
 }
