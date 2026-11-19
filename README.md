@@ -12,7 +12,7 @@ Work Shell is the new MCKY application platform at `work.mcky.space`.
 
 ## Deployment
 
-The primary deployment target is Cloudflare Pages (`work-shell` project), connected to this GitHub repository. Pages Functions proxy `/api/truck/*` and `/api/data/*` through a fixed upstream allowlist so the browser can use same-origin API calls. Static assets are excluded from Function invocation via `public/_routes.json`.
+The primary deployment target is Cloudflare Pages (`work-shell` project), connected to this GitHub repository. Pages Functions expose only the non-sensitive `/api/truck-health` and `/api/data/ping` checks. Business-data and mutation routes are intentionally blocked until PORTAL sessions and per-app permissions are enforced. Static assets are excluded from Function invocation via `public/_routes.json`.
 
 ## Current integrations
 
