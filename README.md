@@ -10,6 +10,10 @@ Work Shell is the new MCKY application platform at `work.mcky.space`.
 - Work Shell does not embed Clerk. The platform identity migration is designed around PORTAL-issued OIDC tokens.
 - Existing TRUCK and DATA LEDGER data stores remain authoritative and separate.
 
+## Deployment
+
+The primary deployment target is Cloudflare Pages (`work-shell` project), connected to this GitHub repository. Pages Functions proxy `/api/truck/*` and `/api/data/*` through a fixed upstream allowlist so the browser can use same-origin API calls. Static assets are excluded from Function invocation via `public/_routes.json`.
+
 ## Current integrations
 
 - TRUCK: existing Elysia API on Cloudflare Workers, backed by Supabase/PostgreSQL.
@@ -30,6 +34,7 @@ Work Shell is the new MCKY application platform at `work.mcky.space`.
 npm install
 npm run dev
 npm run check
+npm run check:functions
 npm run build
 ```
 
