@@ -14,8 +14,8 @@ Status: Prototype foundation built; GitHub source publication pending
 - [x] Remove the Clerk browser SDK dependency from Work Shell.
 - [x] Add same-origin API proxy routes for local development and Vercel.
 - [x] Verify TRUCK API health and DATA API ping.
-- [x] Read live DATA LEDGER client count and catalog records from existing D1/R2 API.
-- [x] Verify live catalog search against the existing Data API.
+- [x] Verify existing DATA API connectivity in an isolated test.
+- [x] Restrict the public Work Shell proxy to health/ping only; keep business data hidden until Portal authorization is ready.
 - [x] Create the GitHub repository `ktypez/work-shell`.
 - [x] Push prototype source and documentation to GitHub.
 - [ ] Merge mcky-ui V6 foundation PR #16.
@@ -60,8 +60,7 @@ Status: Prototype foundation built; GitHub source publication pending
 - [ ] Migrate remaining apps (Paper, Dept and future apps) through the app registry.
 
 ## Phase 4 — DATA LEDGER module
-- [x] Live client count from existing D1 API.
-- [x] Live client list and search.
+- [ ] Authenticated client list and search after Portal token integration.
 - [ ] Record detail view.
 - [ ] Create/edit/delete workflows using existing API contracts.
 - [ ] Map, media, trash and offline behavior.
