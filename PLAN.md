@@ -17,7 +17,7 @@ Status: Prototype foundation built; GitHub source publication pending
 - [x] Read live DATA LEDGER client count and catalog records from existing D1/R2 API.
 - [x] Verify live catalog search against the existing Data API.
 - [x] Create the GitHub repository `ktypez/work-shell`.
-- [ ] Push prototype source and documentation to GitHub.
+- [x] Push prototype source and documentation to GitHub.
 - [ ] Merge mcky-ui V6 foundation PR #16.
 - [ ] Configure Vercel project and work.mcky.space domain.
 
