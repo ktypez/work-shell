@@ -85,9 +85,10 @@ Use LINE Login v2.1 directly:
 4. Validate the ID token (issuer, audience/channel ID, expiry, nonce and signature/LINE verification endpoint).
 5. Resolve the LINE subject to an existing `identities` record.
 
-Preserve the current link-only behavior:
-- LINE login cannot silently create a second account.
-- A user links LINE only while authenticated to the existing platform account.
+Preserve the current linked-identity behavior:
+- The sign-in page supports LINE OAuth, but login succeeds only when the LINE subject is already linked to a platform account.
+- A user links or reconnects LINE only while authenticated to the existing platform account.
+- An unlinked LINE subject must not create a new account; registration remains invite-only.
 - Never auto-link accounts solely because email addresses match.
 - After linking, future LINE login resolves to the same platform user.
 - "Sync from LINE" remains an explicit user action and updates selected profile fields (display name/avatar; email only when LINE grants it and it is verified).
