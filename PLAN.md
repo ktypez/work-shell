@@ -31,8 +31,9 @@ Status: Prototype foundation built; GitHub source publication pending
 - [x] Create dedicated production D1 `mcky-identity` and isolated preview D1 `mcky-identity-preview` in APAC.
 - [x] Apply identity schema migrations 0001 and 0002 to both databases.
 - [x] Bind `IDENTITY_DB` to Portal Pages preview and production environments.
-- [ ] Add D1 binding to existing Portal Pages Functions project.
-- [ ] Implement identity schema, migrations, OIDC discovery/JWKS and signing-key rotation.
+- [x] Add D1 binding and signing-key readiness foundation to Portal Pages Functions (PR #6 merged).
+- [ ] Provision ES256 key pair in Cloudflare Pages secrets and D1 to activate `/api/identity/ready`.
+- [ ] Implement OIDC discovery (`/.well-known/openid-configuration`) and JWKS (`/.well-known/jwks.json`).
 - [ ] Implement password reset/re-enrollment and session rotation/revocation.
 - [ ] Implement direct LINE link, login and explicit profile sync.
 - [ ] Import existing Clerk users and app grants; preserve stable subjects.
