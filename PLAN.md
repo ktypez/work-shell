@@ -18,7 +18,7 @@ Status: Prototype foundation built; GitHub source publication pending
 - [x] Restrict the public Work Shell proxy to health/ping only; keep business data hidden until Portal authorization is ready.
 - [x] Create the GitHub repository `ktypez/work-shell`.
 - [x] Push prototype source and documentation to GitHub.
-- [ ] Merge mcky-ui V6 foundation PR #16.
+- [x] Merge mcky-ui V6 foundation PR #16.
 - [x] Create Cloudflare Pages project `work-shell` connected to GitHub `ktypez/work-shell`.
 - [x] Add `work.mcky.space` custom domain and verify DNS.
 - [x] Verify first Cloudflare Pages deployment and same-origin API proxy (TRUCK health, DATA ping and live client count).
